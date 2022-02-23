@@ -24,6 +24,19 @@ public class Membre {
         this.password = password;
     }
 
+
+    public void copy(Membre membre){
+        this.idMembre = membre.idMembre;
+        this.username = membre.username;
+        this.mail = membre.mail;
+        this.password = membre.password;
+        this.isAdmin = membre.isAdmin;
+    }
+
+    public Membre() {
+
+    }
+
     @Override
     public String toString() {
         return "Membre{" +

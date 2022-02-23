@@ -13,18 +13,18 @@ public class Film
     private String titre;
     private int annee;
     private  int duree;
-    private String synopnis;
+    private String synopsis;
     private Personne realisateur;
     private List<Personne> acteurs;
     private  List<Avis> avisList;
     private Genre genre;
 
-    public Film(int idFilm, String titre, int annee, int duree, String synopnis, Personne realisateur, List<Personne> acteurs, List<Avis> avisList, Genre genre) {
+    public Film(int idFilm, String titre, int annee, int duree, String synopsis, Personne realisateur, List<Personne> acteurs, List<Avis> avisList, Genre genre) {
         this.idFilm = idFilm;
         this.titre = titre;
         this.annee = annee;
         this.duree = duree;
-        this.synopnis = synopnis;
+        this.synopsis = synopsis;
         this.realisateur = realisateur;
         this.acteurs = acteurs;
         this.avisList = avisList;
@@ -33,7 +33,7 @@ public class Film
     }
 
     public Film() {
-
+this.realisateur = new Personne();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class Film
                 "### " + titre +  " ###" + '\n' +
                 " Année de sortie : " + annee +  '\n' +
                 " Durée(mns) : " + duree +  '\n' +
-                " Synopsis : " + synopnis + '\n' +
+                " Synopsis : " + synopsis + '\n' +
                 " Réalisateur : " + realisateur + '\n' +
                 " Acteurs : " + acteursStr + '\n' +
                 " Avis :" + avisStr + '\n' +

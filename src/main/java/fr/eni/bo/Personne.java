@@ -14,6 +14,10 @@ public class Personne {
         this.prenom = prenom;
     }
 
+    public Personne() {
+
+    }
+
     @Override
     public String toString() {
         return prenom +" " + nom;
