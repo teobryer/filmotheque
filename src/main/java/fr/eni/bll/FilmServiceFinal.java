@@ -1,17 +1,21 @@
 package fr.eni.bll;
 
-import fr.eni.bo.*;
+import fr.eni.bo.Avis;
+import fr.eni.bo.Catalogue;
+import fr.eni.bo.Film;
+import fr.eni.bo.Genre;
+import fr.eni.dal.FilmDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service("web")
-public class FilmServiceWeb implements IFilmService{
+@Service("final")
+public class FilmServiceFinal implements IFilmService{
 
     @Autowired
-    Catalogue monCatalogue;
+    FilmDAO filmDAO;
 
 
     @Autowired
@@ -58,8 +62,8 @@ public class FilmServiceWeb implements IFilmService{
             throw new Exception(erreurs);
         }
         else{
-            nouveauFilm.setIdFilm(monCatalogue.getListeFilms().size()+1);
-            monCatalogue.getListeFilms().add(nouveauFilm);
+            nouveauFilm.setIdFilm(0);
+            filmDAO.save(nouveauFilm);
 
             System.out.println("Nouveau Film ajouté avec succès. Vous retrouverez désormais " + nouveauFilm.getTitre() + " parmi votre catalogue ! ");
         }
@@ -74,36 +78,46 @@ public class FilmServiceWeb implements IFilmService{
     }
 
     @Override
-    public void supprimerUnFilm(Film ancienFilm) {
-        monCatalogue.getListeFilms().remove(ancienFilm);
+    public void supprimerUnFilm(Film ancienFilm) throws Exception {
+
+
+        if(authenticationService.membreConnected().isAdmin()) {
+
+        filmDAO.delete(ancienFilm);
+        }
+
+        else{
+            throw new Exception("Vous n'êtes pas autorisé à supprimer un film.");
+        }
         System.out.println("Le film "+ ancienFilm.getTitre()+ " a été supprimé avec succès.");
     }
 
     @Override
     public List<Film> recupererTousLesFilms() {
 
-        return monCatalogue.getListeFilms();
+        return filmDAO.findAll();
     }
 
     @Override
     public List<Film> recupererFilmParGenre(Genre genre) {
-        return monCatalogue.getListeFilms().stream().filter(film -> film.getGenre() == genre).collect(Collectors.toList());
+        return filmDAO.findByGenreNomGenre(genre.getNomGenre());
     }
 
     @Override
     public List<Film> chercherParmiLesFilms(String keyword) {
-        return monCatalogue.getListeFilms().stream().filter(film -> film.getTitre().contains(keyword)).collect(Collectors.toList());
+         return filmDAO.findByGenreNomGenre("%"+keyword+"%");
     }
 
     @Override
     public void modifierUnFilm(Film filmModifie) {
+        filmDAO.save(filmModifie);
         System.out.println("Le film "+ filmModifie.getTitre()+" a été modifié avec succès. Vous retrouverez désormais les nouvelles informations sur ce dernier." );
     }
 
     @Override
     public Film recupererFilmParId(long idFilm) throws Exception {
         try{
-            return monCatalogue.getListeFilms().stream().filter(film -> film.getIdFilm()== idFilm).findFirst().get();
+            return filmDAO.findById(idFilm).get();
         }
         catch (Exception e){
             throw new Exception("Aucun film ne correspond.");
@@ -129,6 +143,7 @@ public class FilmServiceWeb implements IFilmService{
 
         if(!error){
             film.getAvisList().add(avis);
+            filmDAO.save(film);
             System.out.println("Ajout d'un nouvel avis");
         }
 

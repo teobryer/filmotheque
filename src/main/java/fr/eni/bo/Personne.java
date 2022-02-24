@@ -2,10 +2,18 @@ package fr.eni.bo;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "Personne")
 @Getter
 @Setter
-public class Personne {
-    private int idPersonne;
+public abstract  class Personne {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idPersonne;
     private String nom;
     private String prenom;
 

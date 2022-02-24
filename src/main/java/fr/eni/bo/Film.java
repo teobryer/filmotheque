@@ -3,23 +3,38 @@ package fr.eni.bo;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "Film")
 @Getter
 @Setter
 public class Film
 {
-    private  int idFilm;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idFilm;
+
     private String titre;
     private int annee;
     private  int duree;
     private String synopsis;
-    private Personne realisateur;
-    private List<Personne> acteurs;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn (name="id_realisateur")
+    private Realisateur realisateur;
+
+    @OneToMany(cascade = {CascadeType.ALL})
+    private List<Acteur> acteurs;
+
+    @OneToMany(cascade = {CascadeType.ALL})
     private  List<Avis> avisList;
+
+    @ManyToOne
     private Genre genre;
 
-    public Film(int idFilm, String titre, int annee, int duree, String synopsis, Personne realisateur, List<Personne> acteurs, List<Avis> avisList, Genre genre) {
+    public Film(long idFilm, String titre, int annee, int duree, String synopsis, Realisateur realisateur, List<Acteur> acteurs, List<Avis> avisList, Genre genre) {
         this.idFilm = idFilm;
         this.titre = titre;
         this.annee = annee;
@@ -33,7 +48,7 @@ public class Film
     }
 
     public Film() {
-this.realisateur = new Personne();
+this.realisateur = new Realisateur();
     }
 
     @Override

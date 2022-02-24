@@ -52,7 +52,7 @@ public class FilmServiceBasique implements IFilmService{
     }
 
     @Override
-    public Film recupererFilmParId(int idFilm) throws Exception {
+    public Film recupererFilmParId(long idFilm) throws Exception {
         try{
             return monCatalogue.getListeFilms().stream().filter(film -> film.getIdFilm()== idFilm).findFirst().get();
         }

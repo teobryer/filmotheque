@@ -2,10 +2,12 @@ package fr.eni.ihm;
 
 import fr.eni.bll.IAuthenticationService;
 import fr.eni.bll.IFilmService;
+import fr.eni.bo.Acteur;
 import fr.eni.bo.Avis;
 import fr.eni.bo.Film;
 import fr.eni.bo.Personne;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ public class FilmControllerWeb {
 
 
     @Autowired
+    @Qualifier("final")
     IFilmService filmService;
 
 
@@ -28,7 +31,7 @@ public class FilmControllerWeb {
         Film film = new Film();
         film.setAnnee(2000);
         film.setDuree(1);
-        film.setActeurs(new ArrayList<>(){{add(new Personne());}});
+        film.setActeurs(new ArrayList<>(){{add(new Acteur());}});
         model.addAttribute("filmForm", film);
         return "ajoutFilm";
     }

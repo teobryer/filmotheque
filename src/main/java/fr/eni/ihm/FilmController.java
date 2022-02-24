@@ -2,10 +2,9 @@ package fr.eni.ihm;
 
 import fr.eni.bll.IAuthenticationService;
 import fr.eni.bll.IFilmService;
-import fr.eni.bo.Avis;
-import fr.eni.bo.Film;
-import fr.eni.bo.Personne;
+import fr.eni.bo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
@@ -16,6 +15,7 @@ import java.util.Scanner;
 public class FilmController implements IFilmController {
 
     @Autowired
+    @Qualifier("final")
     IFilmService filmService;
 
 
@@ -34,7 +34,7 @@ public class FilmController implements IFilmController {
 
 
         if (authenticationService.membreConnected() != null) {
-            monFilm.setActeurs(new ArrayList<Personne>());
+            monFilm.setActeurs(new ArrayList<Acteur>());
             monFilm.setAvisList(new ArrayList<Avis>());
 
 
@@ -125,7 +125,7 @@ public class FilmController implements IFilmController {
         String prenomRealisateur = scanner.nextLine();
 
         if (nomRealisateur != null && !nomRealisateur.equals("") & prenomRealisateur != null && !prenomRealisateur.equals("")) {
-            monFilm.setRealisateur(new Personne(nomRealisateur, prenomRealisateur));
+            monFilm.setRealisateur(new Realisateur(nomRealisateur, prenomRealisateur));
             Ajout_Etape6();
         } else {
             System.out.println("Erreur ! Veuillez recommencer.");
@@ -152,7 +152,7 @@ public class FilmController implements IFilmController {
         String prenomActeur = scanner.nextLine();
 
         if (nomActeur != null && !nomActeur.equals("") && prenomActeur != null && !prenomActeur.equals("")) {
-            monFilm.getActeurs().add(new Personne(nomActeur, prenomActeur));
+            monFilm.getActeurs().add(new Acteur(nomActeur, prenomActeur));
             System.out.println("Voulez vous ajouter un autre acteur ?");
             System.out.println("O (Si vous vous voulez en indiquer)/ N (Sinon)");
             String choixActeurs = scanner.nextLine();
