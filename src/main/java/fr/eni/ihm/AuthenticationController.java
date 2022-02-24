@@ -6,6 +6,7 @@ import fr.eni.bo.Film;
 import fr.eni.bo.Membre;
 import fr.eni.bo.Personne;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.util.Scanner;
@@ -17,6 +18,7 @@ public class AuthenticationController implements IAuthenticationController{
 
 
     @Autowired
+    @Qualifier("finalAuthService")
     IAuthenticationService authenticationService;
 
 

@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -16,13 +20,22 @@ public class Film
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idFilm;
 
+    @NotBlank
     private String titre;
+
+    @Min(1000)
+    @Max(3000)
     private int annee;
+
+    @Min(1)
+    @Max(1000)
     private  int duree;
+    @NotBlank
     private String synopsis;
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn (name="id_realisateur")
+    @Valid
     private Realisateur realisateur;
 
     @OneToMany(cascade = {CascadeType.ALL})

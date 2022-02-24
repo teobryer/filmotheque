@@ -5,6 +5,7 @@ import fr.eni.bll.IFilmService;
 import fr.eni.bo.Film;
 import fr.eni.bo.Membre;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +16,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ApplicationControllerWeb {
 
     @Autowired
+    @Qualifier("finalAuthService")
     IAuthenticationService authenticationService;
 
+    @Autowired
+    @Qualifier("final")
+    IFilmService filmService;
 
-    @GetMapping({"/ajouter", "/"})
-    public String index() {
 
-        return "index";
+    @GetMapping({"/accueil", "/"})
+    public String index(Model model) {
+
+        model.addAttribute("films", filmService.recupererTousLesFilms());
+        return "listeFilms";
     }
 
 

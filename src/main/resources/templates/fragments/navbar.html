@@ -1,15 +1,29 @@
+
 <!-- Responsive navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
-        <a class="navbar-brand" th:href="@{/}">Filmothèque</a>
+        <a class="navbar-brand" th:href="@{/}"><span th:text="#{labelFilmotheque}"></span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" th:href="@{/film/liste}">Films</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/film/ajouter}">Nouveau film</a></li>
-                <li th:if="${@userActif.idMembre == 0}" class="nav-item"><a class="nav-link" th:href="@{/connexion}"><span >Connexion</span></a></li>
-                <li th:if="${@userActif.idMembre != 0}" class="nav-item"><a class="nav-link" th:href="@{/deconnexion}"><span th:text="${'Déconnexion '+ @userActif.username}"></span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/film/liste}"><span th:text="#{labelFilms}"></span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/film/ajouter}"><span th:text="#{labelAjoutFilm}"></span></a></li>
+                <li th:if="${@userActif.idMembre == 0}" class="nav-item"><a class="nav-link" th:href="@{/connexion}"><span th:text="#{labelConnexion}"></span></a></li>
+                <li th:if="${@userActif.idMembre != 0}" class="nav-item"><a class="nav-link" th:href="@{/deconnexion}"><span th:text="#{labelDeconnexion}"></span><span  th:text="${' '+ @userActif.username}"></span></a></li>
+
             </ul>
+            <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                   <span  th:if="${#strings.equals(#locale , 'fr')}" class="flag-icon flag-icon-fr" ></span>
+                    <span th:if="${#strings.equals(#locale , 'en')}" class="flag-icon flag-icon-gb" ></span>
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="?lang=fr"><span class="flag-icon flag-icon-fr" ></span>   Français</a></li>
+                    <li><a class="dropdown-item" href="?lang=en"><span class="flag-icon flag-icon-gb" ></span>   English</a></li>
+
+                </ul>
+            </div>
         </div>
     </div>
 </nav>

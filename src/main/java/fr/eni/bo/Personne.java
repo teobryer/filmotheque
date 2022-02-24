@@ -3,6 +3,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 
 @Entity
@@ -14,7 +15,9 @@ public abstract  class Personne {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idPersonne;
+
     private String nom;
+
     private String prenom;
 
     public Personne(String nom, String prenom) {

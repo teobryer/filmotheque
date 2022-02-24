@@ -19,6 +19,10 @@ public class Genre {
         this.nomGenre = nomGenre;
     }
 
+    public Genre() {
+
+    }
+
     @Override
     public String toString() {
         return  nomGenre ;

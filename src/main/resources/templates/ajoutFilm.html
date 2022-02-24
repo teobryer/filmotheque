@@ -1,56 +1,69 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Small Business - Start Bootstrap Template</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head.html :: head"></div>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
+
 <body>
 <!-- Navbar Fragment-->
 <div th:replace="fragments/navbar.html :: nav"></div>
 <!-- Page Content-->
 <div class="container mt-2 mb-2 px-4 px-lg-5">
 
-    <form method="post" th:action="@{/film/ajouter}" th:object="${filmForm}" >
+
+
+
+    <form method="post" th:action="@{/film/ajouter}" th:object="${filmForm}" novalidate>
         <div class="mb-3">
-            <label for="titre" class="form-label">Titre du film</label>
-            <input th:field="*{titre}" type="text" class="form-control" id="titre" aria-describedby="titreHelp">
+            <label th:for="*{titre}"  for="titre" class="form-label"><span th:text="#{labelTitreFilm}"></span></label>
+            <input th:class="${#fields.hasErrors('titre') && valid != null } ? 'form-control is-invalid' : (${ valid == null } ? 'form-control' : 'form-control is-valid')" th:field="*{titre}" type="text"  aria-describedby="fb" >
+            <div th:if="${#fields.hasErrors('titre')}" id="fb" class="invalid-feedback" >
+                <span th:errors="*{titre}"></span>
+            </div>
+
+
 
         </div>
 
         <div class="mb-3">
-            <label for="titre" class="form-label">Synopsis du film</label>
-            <textarea  th:field="*{synopsis}" type="text" class="form-control" id="synopsis" aria-describedby="titreHelp"></textarea>
+            <label th:for="*{synopsis}"   class="form-label"><span th:text="#{labelSynopsisFilm}"></span></label>
+            <textarea  th:field="*{synopsis}" type="text" th:class="${#fields.hasErrors('synopsis') && valid != null } ? 'form-control is-invalid' : (${ valid == null } ? 'form-control' : 'form-control is-valid')"  aria-describedby="titreHelp"></textarea>
+            <div th:if="${#fields.hasErrors('synopsis')}" class="invalid-feedback">
+                <span th:errors="*{synopsis}"></span>
+            </div>
 
         </div>
 
         <div class="mb-3">
-            <label for="annee" class="form-label">Année du film</label>
-            <input  th:field="*{annee}" min="1600"  type="number" class="form-control" id="annee" aria-describedby="anneeHelp">
+            <label for="annee" class="form-label"><span th:text="#{labelAnneeFilm}"></span></label>
+            <input  th:field="*{annee}" min="1600"  type="number" th:class="${#fields.hasErrors('annee') && valid != null } ? 'form-control is-invalid' : (${ valid == null } ? 'form-control' : 'form-control is-valid')"  id="annee" aria-describedby="anneeHelp">
+            <div th:if="${#fields.hasErrors('annee')}"class="invalid-feedback">
+                <span th:errors="*{annee}"></span>
+            </div>
 
         </div>
 
         <div class="mb-3">
-            <label for="duree" class="form-label">Durée du film</label>
-            <input  th:field="*{duree}" min="1" type="number" class="form-control" id="duree" aria-describedby="titreHelp">
+            <label for="duree" class="form-label"><span th:text="#{labelDureeFilm}"></span></label>
+            <input  th:field="*{duree}" min="1" type="number" th:class="${#fields.hasErrors('duree') && valid != null } ? 'form-control is-invalid' : (${ valid == null } ? 'form-control' : 'form-control is-valid')"  id="duree" aria-describedby="titreHelp">
+            <div th:if="${#fields.hasErrors('duree')}"class="invalid-feedback">
+                <span th:errors="*{duree}"></span>
+            </div>
 
         </div>
         <div class="row g-3">
             <div class="col">
-                <label for="nomRealisateur" class="form-label">Nom réalisateur</label>
-                <input th:field="*{realisateur.nom}" type="text" id="nomRealisateur" class="form-control" placeholder="Nom réalisateur" aria-label="Nom réalisateur">
+                <label for="nomRealisateur" class="form-label"><span th:text="#{labelNomRea}"></span></label>
+                <input th:field="*{realisateur.nom}" type="text" id="nomRealisateur" th:class="${#fields.hasErrors('realisateur.nom') && valid != null } ? 'form-control is-invalid' : (${ valid == null } ? 'form-control' : 'form-control is-valid')"  th:placeholder="#{labelNomRea}" aria-label="Nom réalisateur">
+                <div th:if="${#fields.hasErrors('realisateur.nom')}"class="invalid-feedback">
+                    <span th:errors="*{realisateur.nom}"></span>
+                </div>
             </div>
             <div class="col">
-                <label for="prenomRealisateur" class="form-label">Prénom réalisateur</label>
-                <input th:field="*{realisateur.prenom}" type="text" id="prenomRealisateur" class="form-control" placeholder="Prénom réalisateur" aria-label="Prénom réalisateur">
+                <label for="prenomRealisateur" class="form-label"><span th:text="#{labelPrenomRea}"></span></label>
+                <input th:field="*{realisateur.prenom}" type="text" id="prenomRealisateur" th:class="${#fields.hasErrors('realisateur.prenom') && valid != null } ? 'form-control is-invalid' : (${ valid == null } ? 'form-control' : 'form-control is-valid')"  th:placeholder="#{labelPrenomRea}" aria-label="Prénom réalisateur">
+                <div th:if="${#fields.hasErrors('realisateur.prenom')}"class="invalid-feedback">
+                    <span th:errors="*{realisateur.prenom}"></span>
+                </div>
             </div>
         </div>
 
@@ -58,38 +71,74 @@
         <div class="listeActeurs">
         <div hidden="hidden"  class="row g-3 acteurLine">
             <div class="col">
-                <label  class="form-label">Nom acteur</label>
-                <input  type="text" class="form-control nom" placeholder="Nom acteur" aria-label="Nom acteur">
+                <label  class="form-label"><span th:text="#{labelNomAct}"></span></label>
+                <input  type="text" class="form-control nom" th:placeholder="#{labelNomAct}" aria-label="Nom acteur">
+
             </div>
             <div class="col">
-                <label  class="form-label">Prénom acteur</label>
-                <input type="text"  class="form-control prenom" placeholder="Prénom acteur" aria-label="Prénom acteur">
+                <label  class="form-label"><span th:text="#{labelPrenomAct}"></span></label>
+                <input type="text"  class="form-control prenom" th:placeholder="#{labelPrenomAct}" aria-label="Prénom acteur">
             </div>
         </div>
 
         <div  class="row g-3">
             <div class="col">
-                <label class="form-label">Nom acteur</label>
-                <input type="text" th:field="*{acteurs[0].nom}" class="form-control" placeholder="Nom acteur" aria-label="Nom acteur">
+                <label class="form-label"><span th:text="#{labelNomAct}"></span></label>
+                <input type="text" th:field="*{acteurs[0].nom}" class="form-control" th:placeholder="#{labelNomAct}" aria-label="Nom acteur">
             </div>
             <div class="col">
-                <label  class="form-label">Prénom acteur</label>
-                <input type="text" th:field="*{acteurs[0].prenom}" class="form-control" placeholder="Prénom acteur" aria-label="Prénom acteur">
+                <label  class="form-label"><span th:text="#{labelPrenomAct}"></span></label>
+                <input type="text" th:field="*{acteurs[0].prenom}" class="form-control" th:placeholder="#{labelPrenomAct}" aria-label="Prénom acteur">
             </div>
         </div>
 
         </div>
 
-        <button onclick="duplicate()" type="button" class="btn mt-2 btn-primary">Plus d'acteurs</button>
+        <button onclick="duplicate()" type="button" class="btn mt-2 btn-primary"><span th:text="#{labelPlusAct}"></span></button>
 
 
-        <button type="submit" class="btn mt-2 btn-primary">Ajouter un nouveau film</button>
+        <div class="mb-3">
+            <label  class="form-label"><span th:text="#{labelGenre}"></span></label>
+            <select  class="form-control" th:field="*{genre}">
+                <option th:each="oneGenre : ${allGenres}" th:value="${oneGenre.idGenre}" th:text="${oneGenre.nomGenre}"></option>
+                </option>
+
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn mt-2 btn-primary"><span th:text="#{labelAjoutFilm}"></span></button>
     </form>
+
+
+<!--    <script>-->
+
+<!--        // Example starter JavaScript for disabling form submissions if there are invalid fields-->
+<!--        (function () {-->
+<!--            'use strict'-->
+
+<!--            // Fetch all the forms we want to apply custom Bootstrap validation styles to-->
+<!--            var forms = document.querySelectorAll('.needs-validation')-->
+
+<!--            // Loop over them and prevent submission-->
+<!--            Array.prototype.slice.call(forms)-->
+<!--                .forEach(function (form) {-->
+<!--                    form.addEventListener('submit', function (event) {-->
+<!--                        if (!form.checkValidity()) {-->
+<!--                            event.preventDefault()-->
+<!--                            event.stopPropagation()-->
+<!--                        }-->
+
+<!--                        form.classList.add('was-validated')-->
+<!--                    }, false)-->
+<!--                })-->
+<!--        })()-->
+<!--    </script>-->
 </div>
 <!-- Footer Fragment-->
 <div th:replace="fragments/footer.html :: footer"></div>
 <!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- Core theme JS-->
 <script src="/js/duplicateActeur.js"></script>
 </body>

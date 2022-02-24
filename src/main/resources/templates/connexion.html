@@ -1,18 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Small Business - Start Bootstrap Template</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head.html :: head"></div>
 <body>
 <!-- Navbar Fragment-->
 <div th:replace="fragments/navbar.html :: nav"></div>
@@ -21,28 +9,27 @@
 
     <form method="post" th:action="@{/connexion}" th:object="${membre}" >
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Identifiant</label>
+            <label for="exampleInputEmail1" class="form-label"><span th:text="#{labelUsername}"></span></label>
             <input  th:field="*{username}" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
 
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
+            <label for="exampleInputPassword1" class="form-label"><span th:text="#{labelPwd}"></span></label>
             <input type="password" th:field="*{password}" class="form-control" id="exampleInputPassword1">
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Se rappeler de moi</label>
+            <label class="form-check-label" for="exampleCheck1"><span th:text="#{labelRenember}"></span></label>
         </div>
-        <button type="submit" class="btn btn-primary">Se connecter</button>
+        <button type="submit" class="btn btn-primary"><span th:text="#{labelConnexion}"></span></button>
     </form>
 
 </div>
 <!-- Footer Fragment-->
 <div th:replace="fragments/footer.html :: footer"></div>
 <!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="/js/duplicateActeur.js"></script>
+
+
 </body>
 </html>
 

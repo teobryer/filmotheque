@@ -2,18 +2,19 @@ package fr.eni.ihm;
 
 import fr.eni.bll.IAuthenticationService;
 import fr.eni.bll.IFilmService;
-import fr.eni.bo.Acteur;
-import fr.eni.bo.Avis;
-import fr.eni.bo.Film;
-import fr.eni.bo.Personne;
+import fr.eni.bll.IGenreService;
+import fr.eni.bo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("film")
@@ -25,20 +26,46 @@ public class FilmControllerWeb {
     IFilmService filmService;
 
 
+    @Autowired
+    @Qualifier("finalGenreService")
+    IGenreService genreService;
+
 
     @GetMapping("/ajouter")
     public String ajouterFilm(Model model) {
-        Film film = new Film();
-        film.setAnnee(2000);
-        film.setDuree(1);
-        film.setActeurs(new ArrayList<>(){{add(new Acteur());}});
-        model.addAttribute("filmForm", film);
-        return "ajoutFilm";
+
+        List<Genre> listeGenres = genreService.recupererTousLesGenres();
+        if(!listeGenres.isEmpty()) {
+
+            Film film = new Film();
+
+            film.setAnnee(2000);
+            film.setDuree(1);
+            film.setActeurs(new ArrayList<>() {{
+                add(new Acteur());
+            }});
+            model.addAttribute("filmForm", film);
+            model.addAttribute("allGenres", listeGenres);
+            return "ajoutFilm";
+
+        }
+
+        else{
+            model.addAttribute("monErreur", "Veuillez d'abord créer au moins un genre pour créer un film.");
+            return "erreur";
+        }
     }
 
     @PostMapping("/ajouter")
-    public String submissionResult(@ModelAttribute("filmForm") Film filmForm, Model model) {
+    public String submissionResult(@ModelAttribute("filmForm") @Valid Film filmForm, BindingResult br, Model model) {
 
+
+        if (br.hasErrors()) {
+            System.out.println("Valid a échoué");
+            model.addAttribute("filmForm", filmForm);
+            model.addAttribute("valid", true);
+            return "ajoutFilm";
+        }
 
         try {
             filmService.ajouterUnFilm(filmForm);
